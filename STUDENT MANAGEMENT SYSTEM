@@ -1,0 +1,146 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    private String name;
+    private String rollNumber; 
+    private String grade;
+
+    public Student(String name, String rollNumber, String grade) {
+        this.name = name;
+        this.rollNumber = rollNumber;
+        this.grade = grade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRollNumber() {
+        return rollNumber;
+    }
+
+    public void setRollNumber(String rollNumber) {
+        this.rollNumber = rollNumber;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+}
+
+public class StudentManagementSystem {
+    private ArrayList<Student> students;
+    private Scanner scanner;
+
+    public StudentManagementSystem() {
+        students = new ArrayList<>();
+        scanner = new Scanner(System.in);
+    }
+
+    public void addStudent() {
+        System.out.println("Enter student details:");
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Roll Number: ");
+        String rollNumber = scanner.nextLine(); 
+        System.out.print("Grade: ");
+        String grade = scanner.nextLine();
+
+        Student student = new Student(name, rollNumber, grade);
+        students.add(student);
+        System.out.println("Student added successfully.");
+    }
+
+    public void removeStudent(String rollNumber) { 
+        boolean removed = false;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getRollNumber().equals(rollNumber)) { 
+                students.remove(i);
+                removed = true;
+                System.out.println("Student removed successfully.");
+                break;
+            }
+        }
+        if (!removed) {
+            System.out.println("Student with roll number " + rollNumber + " not found.");
+        }
+    }
+
+    public void searchStudent(String rollNumber) { 
+        boolean found = false;
+        for (Student student : students) {
+            if (student.getRollNumber().equals(rollNumber)) { 
+                System.out.println("Student Details:");
+                System.out.println("Name: " + student.getName());
+                System.out.println("Roll Number: " + student.getRollNumber());
+                System.out.println("Grade: " + student.getGrade());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Student with roll number " + rollNumber + " not found.");
+        }
+    }
+
+    public void displayAllStudents() {
+        System.out.println("All Students:");
+        for (Student student : students) {
+            System.out.println("Name: " + student.getName() + ", Roll Number: " + student.getRollNumber() + ", Grade: " + student.getGrade());
+        }
+    }
+
+    public static void main(String[] args) {
+        StudentManagementSystem sms = new StudentManagementSystem();
+        Scanner scanner = new Scanner(System.in);
+
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\nStudent Management System");
+            System.out.println("1. Add Student");
+            System.out.println("2. Remove Student");
+            System.out.println("3. Search Student");
+            System.out.println("4. Display All Students");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); 
+
+            switch (choice) {
+                case 1:
+                    sms.addStudent();
+                    break;
+                case 2:
+                    System.out.print("Enter the roll number of the student to remove: ");
+                    String rollNumberToRemove = scanner.nextLine(); 
+                    sms.removeStudent(rollNumberToRemove);
+                    break;
+                case 3:
+                    System.out.print("Enter the roll number of the student to search: ");
+                    String rollNumberToSearch = scanner.nextLine(); 
+                    sms.searchStudent(rollNumberToSearch);
+                    break;
+                case 4:
+                    sms.displayAllStudents();
+                    break;
+                case 5:
+                    exit = true;
+                    System.out.println("Exiting Student Management System.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
